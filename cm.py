@@ -1,6 +1,8 @@
 import heapq
 
-
+"""
+algorithms by github.com/laurentluce/
+"""
 class Cell(object):
     def __init__(self, x, y, reachable):
         self.reachable = reachable
@@ -100,7 +102,31 @@ class AStar(object):
                         # add adj cell to open list
                         heapq.heappush(self.opened, (adj_cell.f, adj_cell))
 
+def recursivesearch(x, y):
+    visualize(grid)
+    if grid[x][y] == 2:
+        print ('found at %d,%d' % (x, y))
+        return True
+    elif grid[x][y] == 1:
+        print ('wall at %d,%d' % (x, y))
+        return False
+    elif grid[x][y] == 3:
+        print ('visited at %d,%d' % (x, y))
+        return False
+    
+    print ('visiting %d,%d' % (x, y))
 
+    # mark as visited
+    grid[x][y] = 3
+
+    # explore neighbors clockwise starting by the one on the right
+    if ((x < len(grid)-1 and recursivesearch(x+1, y))
+        or (y > 0 and recursivesearch(x, y-1))
+        or (x > 0 and recursivesearch(x-1, y))
+        or (y < len(grid)-1 and recursivesearch(x, y+1))):
+        return True
+
+    return False
 #!/usr/bin/env python3
 
 
@@ -171,31 +197,7 @@ def test_maze_2():
     return[[0, 0, 0, 0, 0, 1],[1, 1, 0, 0, 0, 1],[0, 0, 0, 1, 0, 0],[0, 1, 1, 0, 0, 1],[0, 1, 0, 0, 1, 0],[0, 1, 0, 0, 0, 2]]
 
 
-def recursivesearch(x, y):
-    visualize(grid)
-    if grid[x][y] == 2:
-        print ('found at %d,%d' % (x, y))
-        return True
-    elif grid[x][y] == 1:
-        print ('wall at %d,%d' % (x, y))
-        return False
-    elif grid[x][y] == 3:
-        print ('visited at %d,%d' % (x, y))
-        return False
-    
-    print ('visiting %d,%d' % (x, y))
 
-    # mark as visited
-    grid[x][y] = 3
-
-    # explore neighbors clockwise starting by the one on the right
-    if ((x < len(grid)-1 and recursivesearch(x+1, y))
-        or (y > 0 and recursivesearch(x, y-1))
-        or (x > 0 and recursivesearch(x-1, y))
-        or (y < len(grid)-1 and recursivesearch(x, y+1))):
-        return True
-
-    return False
 
 def findwalls(maze):
     global size
