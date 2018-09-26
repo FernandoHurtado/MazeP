@@ -151,8 +151,8 @@ def visualize(maze):
 
     print("____________________")
     maze = [['▓' if x==1 else x for x in row] for row in maze]
-    maze = [[' ' if x==0 else x for x in row] for row in maze]
-    maze = [['.' if x==3 else x for x in row] for row in maze]
+    maze = [['░' if x==0 else x for x in row] for row in maze]
+    maze = [[' ' if x==3 else x for x in row] for row in maze]
     maze = [['x' if x==4 else x for x in row] for row in maze]
 
     maze = invertList(maze)
