@@ -29,7 +29,7 @@ def maze_load():
     global end
     maze = []
     FILENAME = "maze2.txt"
-    print("Loading word list from file...")
+    print("Loading maze from file...")
     inFile = open(FILENAME, 'r')
     size = inFile.readline().split()
     size = [ int(x1) for x1 in size ]
@@ -45,6 +45,8 @@ def maze_load():
         rw = inFile.readline().rstrip()
         rw = list(map(int, str(rw)) )
         maze.append(rw)  
+        
+    print(maze)    
     return maze
 
 def maze_in():
