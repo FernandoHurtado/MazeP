@@ -13,40 +13,41 @@ A* class made following this guide:
     
     
 -----
+How to use:
+1. Call:
     
-main_visual() to show pretty maze pictures
-main() to only output path in Left,Right,Up,Down   
+    a)  main_visual() to show pretty maze pictures
+    
+    b)  main() to only output path in Left,Right,Up,Down   
 
-maze_in() for manual input in commandline
+2. With parameters:
+    
+    a) maze_in() for manual input in commandline
 
-maze_load() for getting from txts
+    b) maze_load() for getting from txts
 
-maze_n() for pre-loaded mazes 
+    c) maze_n() for pre-loaded mazes 
+    
 """
 def maze_load():
     global start
     global size
     global end
     maze = []
-    FILENAME = "maze2.txt"
-    print("Loading maze from file...")
+    FILENAME = "maze4.txt"
     inFile = open(FILENAME, 'r')
     size = inFile.readline().split()
     size = [ int(x1) for x1 in size ]
-    print('size' + str(size))
     start = inFile.readline().split()
     start = [ int(x2) for x2 in start ]
-    print('start' + str(start))
     end = inFile.readline().split()
     end = [ int(x3) for x3 in end ]
-    print('end' + str(end))
     
     for x in range(size[1]):
         rw = inFile.readline().rstrip()
         rw = list(map(int, str(rw)) )
         maze.append(rw)  
     maze = invertList(maze)
-    print(maze)    
     return maze
 
 def maze_in():
