@@ -3,13 +3,22 @@ import heapq
 """
 Created on Tue Sep 25 19:39:23 2018
 
-@author: Fernando Hurtado
+@author: F
 
 maze workshop attempt n.3: A star search
 
 A* class made following this guide: 
     https://www.laurentluce.com/posts/solving-mazes-using-python-simple-recursivity-and-a-search/
+    Laurent Luce: https://github.com/laurentluce
     
+-----
+    
+main_visual() to show pretty maze pictures
+main() to only output path in Left,Right,Up,Down   
+
+maze() for manual input
+
+maze_n() for pre-loaded mazes 
 """
 
 def maze():
@@ -262,4 +271,4 @@ def main_visual(maze):
     print('path: ' + path) 
     #print(trail)
     
-main(maze_1())
+main_visual(maze_3())
