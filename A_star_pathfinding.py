@@ -17,14 +17,41 @@ A* class made following this guide:
 main_visual() to show pretty maze pictures
 main() to only output path in Left,Right,Up,Down   
 
-maze() for manual input
+maze_in() for manual input in commandline
+
+maze_load() for getting from txts
 
 maze_n() for pre-loaded mazes 
 """
+def maze_load():
+    global start
+    global size
+    global end
+    maze = []
+    FILENAME = "maze2.txt"
+    print("Loading word list from file...")
+    inFile = open(FILENAME, 'r')
+    size = inFile.readline().split()
+    size = [ int(x1) for x1 in size ]
+    print('size' + str(size))
+    start = inFile.readline().split()
+    start = [ int(x2) for x2 in start ]
+    print('start' + str(start))
+    end = inFile.readline().split()
+    end = [ int(x3) for x3 in end ]
+    print('end' + str(end))
+    
+    for x in range(size[1]):
+        rw = inFile.readline().rstrip()
+        rw = list(map(int, str(rw)) )
+        maze.append(rw)  
+    return maze
 
-def maze():
+def maze_in():
     maze = []
     global start
+    global size
+    global end    
     size = input("insert size: ").split()
     size = [ int(x1) for x1 in size ]
     
@@ -272,4 +299,4 @@ def main_visual(maze):
     print('path: ' + path) 
     #print(trail)
     
-main_visual(maze())
+main_visual(maze_load())

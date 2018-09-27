@@ -4,6 +4,12 @@
 Created on Thu Sep 27 08:33:30 2018
 
 @author: f
+
+QL class made following this guide: 
+    https://www.samyzaf.com/ML/rl/qmaze.html
+    Themistoklis Diamantopoulos: https://github.com/thdiaman
+    
+    
 """
 
 
