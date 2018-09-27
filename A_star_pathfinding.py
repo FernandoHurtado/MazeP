@@ -45,7 +45,7 @@ def maze_load():
         rw = inFile.readline().rstrip()
         rw = list(map(int, str(rw)) )
         maze.append(rw)  
-        
+    maze = invertList(maze)
     print(maze)    
     return maze
 
@@ -82,14 +82,14 @@ def visualize(maze):
     endy = int(end[1])
     maze [starty] [startx] = 'S' 
     maze [endy] [endx] = 'E' 
-    print("____________________")
     maze = [['▓' if x==1 else x for x in row] for row in maze]
     maze = [['e' if x==2 else x for x in row] for row in maze]
     maze = [['░' if x==0 else x for x in row] for row in maze]
     maze = [['.' if x==3 else x for x in row] for row in maze]
     maze = [['X' if x==4 else x for x in row] for row in maze]
-
-    print('\n'.join(''.join(row) for row in maze)) 
+    maze = invertList(maze)
+    print('\n'.join(''.join(row) for row in maze))  
+    print("____________________")    
     
     
 def invertList(listToInvert):
@@ -261,15 +261,6 @@ def traildir(trail, maze):
             return False
     visualize(maze)    
         
-def vizwalls(walls, maze):
-    for element in walls:
-        try:
-            maze [element[1]][element[0]] = 4
-        except IndexError:
-            print("indexerror" + str(element))
-            return False
-    visualize(maze)    
-    
 def main(maze):
     global start
     global end
@@ -293,10 +284,12 @@ def main_visual(maze):
     width = int(size[0])
     height = int(size[1])
     a = AStar()
+    print("unsolved:")
     visualize(maze)
     walls = findwalls(maze)
     a.init_grid(width, height, walls, start, end)
     path, trail = a.solve()
+    print("solved: ")
     traildir(trail, maze)
     print('path: ' + path) 
     #print(trail)
