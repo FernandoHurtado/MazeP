@@ -11,7 +11,8 @@ A* class made following this guide:
     https://www.laurentluce.com/posts/solving-mazes-using-python-simple-recursivity-and-a-search/
     
 """
-def create_maze():
+
+def maze():
     maze = []
     global start
     size = input("insert size: ").split()
@@ -27,7 +28,7 @@ def create_maze():
         rw = input("insert row #" + str(x+1) + ": ")
         rw = list(map(int, str(rw)) )
         maze.append(rw)        
-    maze [((len(maze) - 1) - end[1])] [end[0]] = "2"
+    maze [((len(maze) - 1) - end[1])] [end[0]] = 2
     maze = invertList(maze)
     print(maze)
     return maze  
@@ -36,19 +37,19 @@ def create_maze():
 def visualize(maze):
     global start
     global end
-    startx = int(start[1])
-    starty = int(start[0])
-    endx = int(end[1])
-    endy = int(end[0])
+    startx = int(start[0])
+    starty = int(start[1])
+    endx = int(end[0])
+    endy = int(end[1])
     maze [starty] [startx] = 'S' 
     maze [endy] [endx] = 'E' 
     print("____________________")
     maze = [['▓' if x==1 else x for x in row] for row in maze]
+    maze = [['e' if x==2 else x for x in row] for row in maze]
     maze = [['░' if x==0 else x for x in row] for row in maze]
-    maze = [[' ' if x==3 else x for x in row] for row in maze]
+    maze = [['.' if x==3 else x for x in row] for row in maze]
     maze = [['X' if x==4 else x for x in row] for row in maze]
 
-    maze = invertList(maze)
     print('\n'.join(''.join(row) for row in maze)) 
     
     
@@ -176,24 +177,24 @@ class AStar(object):
                             
         
 
-def test_maze_1():
+def maze_1():
     global start
     global size
     global end
-    size = [15,11]
-    start = [0,0]
-    end = [12,2]
-    return [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 2, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0], [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], [0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0], [0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]]
+    size = [11,11]
+    start = [0,10]
+    end = [2,4]
+    return [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], [1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0], [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0], [0, 0, 2, 1, 0, 1, 0, 0, 0, 1, 0], [0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0], [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]]
 
-def test_maze_2():
+def maze_2():
     global start
     global size
     global end
     size = [6,6]
     start = [0,0]
     end = [6,6]
-
-def test_maze_3():
+    
+def maze_3():
     global start
     global size
     global end
@@ -230,8 +231,21 @@ def vizwalls(walls, maze):
             return False
     visualize(maze)    
     
-def main():
-    maze = test_maze_3()
+def main(maze):
+    global start
+    global end
+    global size
+    start = tuple(start)
+    end = tuple(end)
+    width = int(size[0])
+    height = int(size[1])
+    a = AStar()
+    walls = findwalls(maze)
+    a.init_grid(width, height, walls, start, end)
+    path, trail = a.solve()
+    print(path) 
+
+def main_visual(maze):
     global start
     global end
     global size
@@ -245,7 +259,7 @@ def main():
     a.init_grid(width, height, walls, start, end)
     path, trail = a.solve()
     traildir(trail, maze)
-    print(path) 
+    print('path: ' + path) 
     #print(trail)
     
-main()
+main(maze_1())
