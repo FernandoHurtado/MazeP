@@ -16,7 +16,7 @@ A* class made following this guide:
     
 -----
 How to use:
-1. Call main(maze_load)
+1. Call main(maze_load())
     
 """
 
@@ -26,25 +26,20 @@ def maze_load():
     global end
     maze = []
     
-    FILENAME = "maze10.txt"
-    print("Loading maze from file...")
+    FILENAME = "maze11.txt"
     inFile = open(FILENAME, 'r')
     size = inFile.readline().split()
     size = [ int(x1) for x1 in size ]
-    print('size = ' + str(size))
     start = inFile.readline().split()
     start = [ int(x2) for x2 in start ]
-    print('start = ' + str(start))
     end = inFile.readline().split()
-    end = [ int(x3) for x3 in end ]
-    print('end = ' + str(end))
-    
+    end = [ int(x3) for x3 in end ]    
     for x in range(size[1]):
         rw = inFile.readline().rstrip()
+        
         rw = list(map(int, str(rw)) )
         maze.append(rw)  
     maze = invertList(maze)
-    print(maze)    
     return maze
     
 def invertList(listToInvert):
@@ -78,14 +73,14 @@ class AStar(object):
         self.Nodes = []
 
 
-    def init_grid(self, width, height, walls, start, end):
+    def init_grid(self, width, height, maze, start, end):
         # make grid from outside info
         # coordinates start at one. I don't like it either but it is the way it is, okay?
         self.grid_height = height  
         self.grid_width = width
         for x in range(self.grid_width):
             for y in range(self.grid_height):
-                if (x, y) in walls:
+                if maze [y][x] == 1:
                     reachable = False
                 else:
                     reachable = True
@@ -169,14 +164,6 @@ class AStar(object):
                         self.update_Node(adj_Node, Node)
                         heapq.heappush(self.opened, (adj_Node.f, adj_Node))
                             
-def findwalls(maze):
-    walls = []
-    for idx_y, row in enumerate(maze):
-        for idx_x, cell in enumerate(row):
-            if cell == 1:
-                walls.insert(0,(idx_x,idx_y))
-    #vizwalls(walls, maze)
-    return walls
         
 def main(maze):
     global start
@@ -187,8 +174,7 @@ def main(maze):
     width = int(size[0])
     height = int(size[1])
     a = AStar()
-    walls = findwalls(maze)
-    a.init_grid(width, height, walls, start, end)
+    a.init_grid(width, height, maze, start, end)
     path, trail = a.solve()
     print(path) 
 
