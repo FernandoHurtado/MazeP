@@ -1,4 +1,6 @@
 import heapq
+import time
+
 
 """
 this version is lightened for the purpouse of only outputting the Left,Down,Up,Right instructions
@@ -17,15 +19,17 @@ A* class made following this guide:
 -----
 How to use:
 1. Call main(maze_load())
-    
-"""
+-----
 
+to input from file:
+
+  
 def maze_load():
+    global start_time
     global start
     global size
     global end
     maze = []
-    
     FILENAME = "maze11.txt"
     inFile = open(FILENAME, 'r')
     size = inFile.readline().split()
@@ -39,15 +43,36 @@ def maze_load():
         
         rw = list(map(int, str(rw)) )
         maze.append(rw)  
-    maze = invertList(maze)
+    maze.reverse()
     return maze
     
-def invertList(listToInvert):
-    newList = []
-    listLen = len(listToInvert)
-    for index in range(listLen):
-        newList.append(listToInvert[listLen - index - 1])
-    return newList
+"""
+start_time = time.time()
+
+def maze_load():
+    global start
+    global size
+    global end
+    maze = []
+    
+    #FILENAME = "maze1.txt"
+    #inFile = open(FILENAME, 'r')
+    #size = inFile.readline().split()
+    size = input().split()
+    size = [ int(x1) for x1 in size ]
+    #start = inFile.readline().split()
+    start = input().split()
+    start = [ int(x2) for x2 in start ]
+    #end = inFile.readline().split()
+    end = input().split()
+    end = [ int(x3) for x3 in end ]    
+    for x in range(size[1]):
+        #rw = inFile.readline().rstrip()
+        rw = input().rstrip()
+        rw = list(map(int, str(rw)) )
+        maze.append(rw)  
+    maze.reverse()
+    return maze
 
 class Node(object):
     def __init__(self, x, y, reachable):
@@ -89,7 +114,7 @@ class AStar(object):
         self.end = self.get_Node(*end)
         
         
-    def get_heuristic(self, Node):
+    def get_heuristic(self, Node): 
         #tweak to optimize speed?
         return 10 * (abs(Node.x - self.end.x) + abs(Node.y - self.end.y))
 
@@ -123,6 +148,7 @@ class AStar(object):
         trail.append((self.start.x, self.start.y))
         trail.reverse()
         length = 0
+        
         for element in trail:
             if length == 0:
                 prevx = element[0]
@@ -141,8 +167,7 @@ class AStar(object):
         return path, trail
 
     def update_Node(self, adj, Node):
-        #code
-        adj.g = Node.g + 10 # DO NOT CHANGE
+        adj.g = Node.g + 1 # made smaller
         adj.h = self.get_heuristic(adj)        
         adj.parent = Node
         adj.f = adj.h + adj.g
@@ -158,7 +183,7 @@ class AStar(object):
             for adj_Node in adj_Nodes:
                 if adj_Node.reachable and adj_Node not in self.closed:
                     if (adj_Node.f, adj_Node) in self.opened:
-                        if adj_Node.g > Node.g + 10:
+                        if adj_Node.g > Node.g + 1: #made smaller
                             self.update_Node(adj_Node, Node)
                     else:
                         self.update_Node(adj_Node, Node)
@@ -180,3 +205,5 @@ def main(maze):
 
     
 main(maze_load())
+print("maze of size: " + str(size) + "completed in:")
+print("--- %s seconds ---" % (time.time() - start_time))
