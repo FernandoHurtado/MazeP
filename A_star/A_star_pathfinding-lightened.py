@@ -3,13 +3,19 @@ import time
 
 
 """
+        Naze workshop attempt n.3: A star search
+
+A01026025
+A01024681
+
+------
+
 this version is lightened for the purpouse of only outputting the Left,Down,Up,Right instructions
 
 Created on Tue Sep 25 19:39:23 2018
 
 @author: F
-
-maze workshop attempt n.3: A star search
+repo: https://github.com/FernandoHurtado/MazeP/
 
 A* class made following this guide: 
     https://www.laurentluce.com/posts/solving-mazes-using-python-simple-recursivity-and-a-search/
@@ -17,35 +23,7 @@ A* class made following this guide:
     
     
 -----
-How to use:
-1. Call main(maze_load())
------
 
-to input from file:
-
-  
-def maze_load():
-    global start_time
-    global start
-    global size
-    global end
-    maze = []
-    FILENAME = "maze11.txt"
-    inFile = open(FILENAME, 'r')
-    size = inFile.readline().split()
-    size = [ int(x1) for x1 in size ]
-    start = inFile.readline().split()
-    start = [ int(x2) for x2 in start ]
-    end = inFile.readline().split()
-    end = [ int(x3) for x3 in end ]    
-    for x in range(size[1]):
-        rw = inFile.readline().rstrip()
-        
-        rw = list(map(int, str(rw)) )
-        maze.append(rw)  
-    maze.reverse()
-    return maze
-    
 """
 start_time = time.time()
 
@@ -73,6 +51,7 @@ def maze_load():
         maze.append(rw)  
     maze.reverse()
     return maze
+
 
 class Node(object):
     def __init__(self, x, y, reachable):
@@ -164,7 +143,7 @@ class AStar(object):
             length += 1    
             prevx = element[0]
             prevy = element[1]
-        return path, trail
+        return path
 
     def update_Node(self, adj, Node):
         adj.g = Node.g + 1 # made smaller
@@ -175,6 +154,8 @@ class AStar(object):
     def solve(self):
         heapq.heappush(self.opened, (self.start.f, self.start))
         while len(self.opened):
+            if(time.time() - start_time) > 3: # time before timeout
+                return '-'
             f, Node = heapq.heappop(self.opened)
             self.closed.add(Node)
             if Node is self.end:
@@ -200,10 +181,8 @@ def main(maze):
     height = int(size[1])
     a = AStar()
     a.init_grid(width, height, maze, start, end)
-    path, trail = a.solve()
+    path = a.solve()
     print(path) 
 
     
 main(maze_load())
-print("maze of size: " + str(size) + "completed in:")
-print("--- %s seconds ---" % (time.time() - start_time))

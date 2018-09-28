@@ -34,7 +34,7 @@ def maze_load(): # load from textfile
     global size
     global end
     maze = []
-    FILENAME = "maze7.txt"
+    FILENAME = "maze6.txt"
     inFile = open(FILENAME, 'r')
     size = inFile.readline().split()
     size = [ int(x1) for x1 in size ]
@@ -60,10 +60,10 @@ def visualize(maze):
     endy = int(end[1])
     maze [starty] [startx] = 'S' 
     maze [endy] [endx] = 'E' 
-    maze = [['▓' if x==1 else x for x in row] for row in maze]
-    maze = [['e' if x==2 else x for x in row] for row in maze]
-    maze = [['░' if x==0 else x for x in row] for row in maze]
-    maze = [['.' if x==3 else x for x in row] for row in maze]
+    maze = [['▓' if x==0 else x for x in row] for row in maze]
+    maze = [[' ' if x==2 else x for x in row] for row in maze]
+    maze = [['░' if x==3 else x for x in row] for row in maze]
+    maze = [['█' if x==1 else x for x in row] for row in maze]
     maze = [['X' if x==4 else x for x in row] for row in maze]
     maze.reverse()
     print('\n'.join(''.join(row) for row in maze))  
