@@ -1,5 +1,9 @@
 import heapq
+import time
 
+
+
+start_time = time.time()
 """
 Created on Tue Sep 25 19:39:23 2018
 
@@ -16,7 +20,7 @@ A* class made following this guide:
 How to use:
 1. Call:
     
-    a)  main_visual() to show pretty maze pictures
+    a)  main_visual() to show pretty maze pictures (you might want to zoom out a bit for the large ones)
     
     b)  main() to only output path in Left,Right,Up,Down   
 
@@ -34,7 +38,7 @@ def maze_load(): # load from textfile
     global size
     global end
     maze = []
-    FILENAME = "maze6.txt"
+    FILENAME = "maze9.txt"
     inFile = open(FILENAME, 'r')
     size = inFile.readline().split()
     size = [ int(x1) for x1 in size ]
@@ -60,10 +64,10 @@ def visualize(maze):
     endy = int(end[1])
     maze [starty] [startx] = 'S' 
     maze [endy] [endx] = 'E' 
-    maze = [['▓' if x==0 else x for x in row] for row in maze]
+    maze = [[' ' if x==0 else x for x in row] for row in maze]
     maze = [[' ' if x==2 else x for x in row] for row in maze]
-    maze = [['░' if x==3 else x for x in row] for row in maze]
-    maze = [['█' if x==1 else x for x in row] for row in maze]
+    maze = [['█' if x==3 else x for x in row] for row in maze]
+    maze = [['░' if x==1 else x for x in row] for row in maze]
     maze = [['X' if x==4 else x for x in row] for row in maze]
     maze.reverse()
     print('\n'.join(''.join(row) for row in maze))  
@@ -235,7 +239,9 @@ def main_visual(maze):
     path, trail = a.solve()
     print("solved: ")
     traildir(trail, maze)    
-    print('path: ' + path) 
+    #print('path: ' + path) 
 
-    
+
 main_visual(maze_load())
+print("maze of size: " + str(size) + "completed in:")
+print("--- %s seconds ---" % (time.time() - start_time))

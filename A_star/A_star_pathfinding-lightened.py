@@ -186,3 +186,5 @@ def main(maze):
 
     
 main(maze_load())
+print("maze of size: " + str(size) + "completed in:")
+print("--- %s seconds ---" % (time.time() - start_time))
